@@ -22,7 +22,7 @@ function compact (obj) {
 module.exports = {
     config: function (options) {
         options = options || {};
-        dotenv.load(options);
+        var parsed = dotenv.load(options);
         var sampleVars = dotenv.parse(fs.readFileSync(options.sample || '.env.example'));
         var allowEmptyValues = options.allowEmptyValues || false;
         var processEnv = allowEmptyValues ? process.env : compact(process.env);
@@ -31,7 +31,7 @@ module.exports = {
         if (missing.length > 0) {
             throw new Error('Missing environment variables: ' + missing.join(', '));
         }
-        return true;
+        return parsed;
     },
     parse: dotenv.parse
 };

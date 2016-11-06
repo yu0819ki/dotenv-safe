@@ -1,6 +1,7 @@
 var chai = require('chai');
 var assert = chai.assert;
 var dotenv = require('../index.js');
+var _dotenv = require('dotenv');
 
 describe('dotenv-safe', function () {
     it('does not throw error when all is well', function () {
@@ -14,6 +15,16 @@ describe('dotenv-safe', function () {
             sample: '.env.allowEmpty',
             allowEmptyValues: true
         }));
+    });
+
+    it('dotenv and dotenv-safe are same response on load method', function () {
+        var loadedA = dotenv.load({
+            sample: '.env.success'
+        });
+        var loadedB = _dotenv.load({
+            sample: '.env.success'
+        });
+        assert.deepEqual(loadedA, loadedB);
     });
 
     it('throws error when a variable is missing', function () {
